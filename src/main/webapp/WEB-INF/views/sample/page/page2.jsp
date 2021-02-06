@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>@PathVariable 테스트</title>
+    <title>Page2</title>
 </head>
 <body>
-    <h3>${pathVariable}</h3>
+<h1>Page2</h1>
 </body>
 </html>
