@@ -37,3 +37,15 @@
     - addObject() 메소드 이용
 3. View 이름을 설정한다.
     - setViewName() 메소드 이용
+
+---
+
+## Custom 객체를 이용한 데이터 전달
+
+1.
+
+---
+
+## @ModelAttribute 어노테이션 사용 방법
+
+1. 
