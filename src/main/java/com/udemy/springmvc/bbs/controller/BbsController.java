@@ -16,7 +16,7 @@ public class BbsController {
     }
 
     /**
-     * "@ModelAttribute" 어노테이션을 이용하여 View에서 사용할 Custom 객체에 대한 별칭을 붙일 수도 있다.
+     * "@ModelAttribute" 어노테이션을 이용하여 View에서 사용할 Command 객체에 대한 별칭을 붙일 수도 있다.
      * 만약, 아래와 같이 "posts"로 별칭을 정하면 View에서 ${posts.xxx}와 같이 사용 가능하다.
      *
      * @param bbs

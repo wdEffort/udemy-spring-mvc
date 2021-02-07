@@ -24,11 +24,11 @@
         </tr>
         <tr>
             <td><label for="userName">소유자:</label></td>
-            <td><input type="text" name="userName" id="userName"/></td>
+            <td><input type="text" name="userName" id="userName" placeholder="${car.userName}"/></td>
         </tr>
         <tr>
             <td><label for="userHp">소유자 연락처:</label></td>
-            <td><input type="text" name="userHp" id="userHp"/></td>
+            <td><input type="text" name="userHp" id="userHp" placeholder="${car.userHp}"/></td>
         </tr>
         <tr>
             <td colspan="2"><input type="submit" value="작성하기"/></td>

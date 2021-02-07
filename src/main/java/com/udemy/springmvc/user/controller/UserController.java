@@ -52,7 +52,7 @@ public class UserController {
     }
 
     /**
-     * Custom 객체를 Model에 담아서 View에 전달해 줄 수도 있다.
+     * Command 객체를 Model에 담아서 View에 전달해 줄 수도 있다.
      *
      * @param id
      * @param name
@@ -75,7 +75,7 @@ public class UserController {
     }
 
     /**
-     * Custom 객체를 메소드 인자로 사용하게되면 스프링에서 자동으로 요청 데이터를 바인딩 해주고
+     * Command 객체를 메소드 인자로 사용하게되면 스프링에서 자동으로 요청 데이터를 바인딩 해주고
      * 자동으로 Model에 담아서 View로 전달한다.
      *
      * @param user
