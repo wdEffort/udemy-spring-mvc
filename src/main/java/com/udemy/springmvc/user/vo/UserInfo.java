@@ -1,6 +1,6 @@
 package com.udemy.springmvc.user.vo;
 
-public class User {
+public class UserInfo {
 
     private String id;
     private String password;

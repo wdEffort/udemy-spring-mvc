@@ -1,6 +1,6 @@
 package com.udemy.springmvc.user.controller;
 
-import com.udemy.springmvc.user.vo.User;
+import com.udemy.springmvc.user.vo.UserInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +64,7 @@ public class UserController {
                                  @RequestParam("name") String name,
                                  @RequestParam("email") String email,
                                  Model model) {
-        User user = new User();
+        UserInfo user = new UserInfo();
         user.setId(id);
         user.setName(name);
         user.setEmail(email);
@@ -82,7 +82,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/users/detail2", method = RequestMethod.GET)
-    public String detailUserInfo(User user) {
+    public String detailUserInfo(UserInfo user) {
         return "user/detail";
     }
 }

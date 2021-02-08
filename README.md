@@ -94,3 +94,83 @@
 1. Web Container 차원에서의 페이지 이동이며, 실제로 웹 브라우저는 다른 페이지로 이동했는지 알 수 없다.
 2. 웹 브라우저에서는 최초로 요청한 URL만 표시되고, 이동한 페이지의 URL은 알 수 없다.
 3. 현재 실행중인 페이지와 Forward에 의해 호출될 페이지는 request, response 객체를 공유한다.
+
+---
+
+## 유효성 검사(Validation)
+
+1. Validator
+    - org.springframework.validation.Validator 인터페이스
+    - 구현 메소드
+        1) boolean supports(Class<?> arg0) : 구현한 Validator가 해당 커맨드 객체에 대한 값 검증을 지원하는지의 여부를 반환한다.
+        2) void validate(Object target, Errors errors) : target 객체에 대한 검증을 실행하는 메소드이다. `target`은 커맨드 객체를 가르키며, `errors`는
+           검증에 대한 문제가 있을 때 에러 정보를 저장하는 객체이다.
+
+---
+
+## 커맨드 객체에 검증 코드를 추가하는 방법
+
+1. @RequestMapping 어노테이션 메소드에서 커맨드 객체 다음 파라미터로 `BindingResult` 타입이나 `Errors` 타입의 파라미터를 추가한다.
+2. @RequestMapping 어노테이션 메소드에서 Validator 객체를 생성한 후 validate() 메소드를 호출한다.
+    - 이때 커맨드 객체와 BindingResult 또는 Errors 타입의 파라미터를 전달한다.
+3. Errors.hasErrors() 메소드를 이용하면 에러가 있는지 여부를 확인 할 수 있다.
+    - 에러가 있는 경우 `TRUE`, 없는 경우 `FALSE`를 리턴한다.
+
+---
+
+## ValidationUtils 클래스
+
+1. validate() 메소드를 좀 더 편리하게 사용할 수 있도록 하는 클래스이다.
+    - ValidationUtils 클래스 사용 전
+      ```java
+      // validate() 메소드 코드 일부
+      @Override
+      public void validate(Object target, Errors errors) {
+        Member member = (Member) target;
+        String memberId = member.getId();
+      
+        if (member.getId() == null || member.getId().trim().isEmpty()) {
+            System.out.println("회원 아이디를 입력하세요.");
+            errors.rejectValue("id", "입력시 오류 발생");
+        }
+      }
+      ```
+    - ValidationUtils 클래스 사용 후
+      ```java 
+      // validate() 메소드 코드 일부 
+      @Override 
+      public void validate(Object target, Errors errors) { 
+         Member member = (Member) target; 
+         String memberId = member.getId();
+         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "id", "입력시 오류 발생");
+      }
+      ```
+
+---
+
+## @Valid와 @InitBinder 어노테이션 사용
+
+1. 구현한 Validator의 `validate()` 메소드를 직접 호출하지 않고 스프링 프레임워크에서 호출하는 방법이다.
+    - pom.xml에서 의존성 라이브러리를 추가시켜야 한다.
+       ```xml
+        <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.5.Final</version>
+        </dependency>
+       ```
+2. @RequestMapping 어노테이션 메소드에서 커맨드 객체에 @Valid 어노테이션을 지정한다.
+   ```java
+    @RequestMapping(value = "/members", method = RequestMethod.POST)
+    public String memberRegist(@Valid @ModelAttribute("Member") Member member, BindingResult bindingResult) {
+        // code ...
+    }
+   ```
+3. 컨트롤러에서 @InitBinder 어노테이션이 붙은 메소드를 추가한다.
+   ```java
+    @InitBinder
+    protected void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.setValidator(new MemberValidator());
+    }
+   ```
