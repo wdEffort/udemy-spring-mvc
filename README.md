@@ -4,6 +4,8 @@
 
 ## Spring MVC 흐름
 
+#### 예제 패키지 :
+
 1. Client가 Web Browser에 요청을 하면 Dispatcher Servlet(Front Controller)가 이 요청을 받는다.
     - Client --------> Dispatcher Servlet
 2. Dispatcher Servlet은 Handler Mapping을 이용해서 실제로 요청을 처리할 Controller를 결정한다.
@@ -21,6 +23,8 @@
 
 ## Controller 제작 순서
 
+#### 예제 패키지 :
+
 > 최초의 클라이언트의 요청이 들어오면 컨트롤러로 진입을 하고 요청에 대한 작업 처리를 한 후에 뷰에 데이터를 전달한다.
 
 1. @Controller 어노테이션을 이용한 클래스 생성
@@ -32,6 +36,8 @@
 
 ## ModelAndView 객체를 이용한 데이터 전달
 
+#### 예제 패키지 :
+
 1. ModelAndView 객체를 생성한다.
 2. Model 객체에 데이터를 추가 시킨다.
     - addObject() 메소드 이용
@@ -41,6 +47,8 @@
 ---
 
 ## 커맨드(Command) 객체를 이용한 데이터 전달
+
+#### 예제 패키지 :
 
 1. 커맨드 객체란 HttpServletRequest를 통해 들어온 요청 파라미터들을 특정 클래스의 Setter 메소드를 이용하여 객체에 정의되어 있는 속성(Property, 멤버 변수)에 바인딩이 되는 객체를
    의미한다.
@@ -52,6 +60,8 @@
 ---
 
 ## @ModelAttribute 어노테이션 사용 방법
+
+#### 예제 패키지 :
 
 1. @ModelAttribute 어노테이션 사용위치
     - 크게 두 가지로 나뉜다.
@@ -82,6 +92,8 @@
 
 ## Redirect
 
+#### 예제 패키지 :
+
 1. Web Container는 Redirect 명령 들어오면 웹 브라우저에게 다른 페이지로 이동하라는 명령을 내린다.
 2. 웹 브라우저는 URL을 지시된 주소로 바꾸고 그 주소로 이동한다.
 3. 새로운 페이지에서는 request,response 객체가 새롭게 생성된다.
@@ -99,6 +111,8 @@
 
 ## 유효성 검사(Validation)
 
+#### 예제 패키지 :
+
 1. Validator
     - org.springframework.validation.Validator 인터페이스
     - 구현 메소드
@@ -110,6 +124,8 @@
 
 ## 커맨드 객체에 검증 코드를 추가하는 방법
 
+#### 예제 패키지 :
+
 1. @RequestMapping 어노테이션 메소드에서 커맨드 객체 다음 파라미터로 `BindingResult` 타입이나 `Errors` 타입의 파라미터를 추가한다.
 2. @RequestMapping 어노테이션 메소드에서 Validator 객체를 생성한 후 validate() 메소드를 호출한다.
     - 이때 커맨드 객체와 BindingResult 또는 Errors 타입의 파라미터를 전달한다.
@@ -119,6 +135,8 @@
 ---
 
 ## ValidationUtils 클래스
+
+#### 예제 패키지 :
 
 1. validate() 메소드를 좀 더 편리하게 사용할 수 있도록 하는 클래스이다.
     - ValidationUtils 클래스 사용 전
@@ -150,6 +168,8 @@
 
 ## @Valid와 @InitBinder 어노테이션 사용
 
+#### 예제 패키지 :
+
 1. 구현한 Validator의 `validate()` 메소드를 직접 호출하지 않고 스프링 프레임워크에서 호출하는 방법이다.
     - pom.xml에서 의존성 라이브러리를 추가시켜야 한다.
        ```xml
@@ -174,3 +194,33 @@
         webDataBinder.setValidator(new MemberValidator());
     }
    ```
+
+---
+
+## Errors 인터페이스와 BindingResult 인터페이스
+
+#### 예제 패키지 :
+
+1. Errors 인터페이스 : org.springframework.validation.Errors : 유효성 검증 결과를 저장할 때 사용
+    - 제공하는 메소드
+        1) `void` reject(String errorCode) : 전 객체에 대한 글로벌 에러 코드를 추가한다.
+        2) `void` reject(String errorCode, String defualtMessage) : 전 객체에 대한 글로벌 에러코드를 추가하고, 에러코드에 대한 메시지가 존재하지 않을 경우
+           defaultMessage를 사용한다.
+        3) `void` reject(String errorCode, Object[] errorArgs, String defaultMessage) : 전 객체에 대한 글로벌 에러코드를 추가하고, 메시지 인자로
+           errorArgs를 전달 할 수 있고, 에러코드에 대한 메시지가 존재하지 않을 경우에는 defaultMessage를 사용한다.
+        4) `void` rejectValue(String field, String errorCode) : 필드에 대한 에러코드를 추가한다.
+        5) `void` rejectValue(String field, String errorCode, String defaultMessage) : 필드에 대한 에러코드를 추가하고, 에러코드에 대한 메시지가
+           존재하지 않을 경우 defaultMessage를 사용한다.
+        6) `void` rejectValue(String field, String errorCode, Object[] errorArgs, String defaultMessage) : 필드에 대한 에러코드를
+           추가하고, 에러메시지 인자로 errorArgs를 전달하고, 에러코드에 대한 메시지가 존재하지 않을 경우 defaultMessage를 사용한다.
+    - 에러 발생 여부를 확인하기 위한 메소드
+        1) `boolean` hasErrors() : 에러가 존재하는 경우 TRUE를 반환한다.
+        2) `int` getErrorCount() : 에러 개수를 반환한다.
+        3) `boolean` hasGlobalErrors() : reject() 메소드를 이용해서 추가된 글로벌 에러가 존재할 경우 TRUE를 반환한다.
+        4) `int` getGlobalErrorCount() : reject() 메소드를 이용해서 추가된 글로벌 에러 개수를 반환한다.
+        5) `boolean` hasFieldErrors() : rejectValue() 메소드를 이용해서 추가된 에러가 존재할 경우 TRUE를 반환한다.
+        6) `int` getFieldErrorCount() : rejectValue() 메소드를 이용해서 추가된 에러 개수를 반환한다.
+        7) `boolean` hasFieldErrors(String field) : rejectValue() 메소드를 이용해서 추가한 특정 필드의 에러가 존재할 경우 TRUE를 반환한다.
+        8) `int` getFieldErrorCount(String field) : rejectValue() 메소드를 이용해서 추가한 특정 필드의 에러 개수를 반환한다.
+2. BindingResult 인터페이스 : org.springframework.validation.BindingResult : Errors 인터페이스를 확장한 인터페이스이며, 요청 데이터를 커맨드 객체에 바인딩한
+   결과를 저장하고 에러코드로 부터 에러메시지를 가져오는 역할을 한다.
