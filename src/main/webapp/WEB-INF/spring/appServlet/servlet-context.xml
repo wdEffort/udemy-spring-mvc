@@ -13,6 +13,10 @@
     <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 
     <!-- Enable the Spring MVC @Controller programming model -->
+    <!--
+    스프링 MVC 설정 파일에서는 <annotation-driven/> 태그를 사용하고,
+    일반적으로는 <context:annotation-config/> 태그를 사용해야 한다.
+     -->
     <annotation-driven/>
 
     <!--

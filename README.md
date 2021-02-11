@@ -224,3 +224,55 @@
         8) `int` getFieldErrorCount(String field) : rejectValue() 메소드를 이용해서 추가한 특정 필드의 에러 개수를 반환한다.
 2. BindingResult 인터페이스 : org.springframework.validation.BindingResult : Errors 인터페이스를 확장한 인터페이스이며, 요청 데이터를 커맨드 객체에 바인딩한
    결과를 저장하고 에러코드로 부터 에러메시지를 가져오는 역할을 한다.
+
+---
+
+## @Component 어노테이션
+
+1. `<context:component-scan base-package=""/>` 태그는 base-package에서 지정한 패키지에서 @Component 어노테이션이 적용된 클래스를 검색해서 @Bean으로 자동
+   등록한다.
+    - 따라서 XML 설정 파일에서 다양한 Bean 정보를 추가하지 않아도 된다.
+    - 설정 파일에서는 `<context:annotation-config/>` 태그를 사용해야 한다.
+       ```java
+       @Component("service01")
+       public class AbstractServiceImpl implements AbtractService {
+         
+         private String name = "service";
+       
+         @Override
+         public String getClassName() {
+             return "AbstractService : " + name;
+         }
+       }
+       ```
+    - 위 코드를 XML 설정 파일에서 <bean> 태그로 작성한다면 아래와 같이 작성해야 한다.
+       ```xml
+      <bean id="service01" class="com.udemy.springmvc.AbtractService"/> 
+      ```
+
+---
+
+## @Resource 어노테이션
+
+1. Java 6 및 JEE 5에 추가되었다.
+2. 어플리케이션에서 필요로 하는 자원을 자동으로 연결할 때 사용한다.
+    - 이후 배우게 될 `@Autowired` 어노테이션과 동일한 기능을 한다.
+3. 스프링에서 의존하는 Bean 객체를 전달할 때 사용한다.
+4. 설정 파일에서는 `<context:annotation-config/>` 태그를 사용해야한다.
+    - 또는 `<bean class="org.springframework.beans.factory.annotation.CommonAnnotationBeanPostProcessor"/>` 클래스를 Bean으로
+      등록시켜 사용하는 방법이 있다.
+
+---
+
+## @Autowired 어노테이션
+
+1. 의존 관계를 설정하는 어노테이션이다.
+    - Type 기반
+    - 생성자, 필드, 메소드에 적용 가능하다.
+    - set 계열의 메소드가 아닌 메소드에도 적용 가능하다.
+
+---
+
+## @Qualifier 어노테이션
+
+1. 동일한 타입의 Bean이 여러 개 있을 때 그 중 어떤 Bean을 주입할 것인지 설정하는 어노테이션이다.
