@@ -4,8 +4,6 @@
 
 ## Spring MVC 흐름
 
-#### 예제 패키지 :
-
 1. Client가 Web Browser에 요청을 하면 Dispatcher Servlet(Front Controller)가 이 요청을 받는다.
     - Client --------> Dispatcher Servlet
 2. Dispatcher Servlet은 Handler Mapping을 이용해서 실제로 요청을 처리할 Controller를 결정한다.
@@ -23,7 +21,7 @@
 
 ## Controller 제작 순서
 
-#### 예제 패키지 :
+#### 예제 클래스 : com.udemy.springmvc.HomeController
 
 > 최초의 클라이언트의 요청이 들어오면 컨트롤러로 진입을 하고 요청에 대한 작업 처리를 한 후에 뷰에 데이터를 전달한다.
 
@@ -36,7 +34,7 @@
 
 ## ModelAndView 객체를 이용한 데이터 전달
 
-#### 예제 패키지 :
+#### 예제 클래스 : com.udemy.springmvc.user.controller.UserController#info()
 
 1. ModelAndView 객체를 생성한다.
 2. Model 객체에 데이터를 추가 시킨다.
@@ -48,7 +46,7 @@
 
 ## 커맨드(Command) 객체를 이용한 데이터 전달
 
-#### 예제 패키지 :
+#### 예제 클래스 : com.udemy.springmvc.user.controller.UserController#detailUserInfo()
 
 1. 커맨드 객체란 HttpServletRequest를 통해 들어온 요청 파라미터들을 특정 클래스의 Setter 메소드를 이용하여 객체에 정의되어 있는 속성(Property, 멤버 변수)에 바인딩이 되는 객체를
    의미한다.
@@ -61,7 +59,7 @@
 
 ## @ModelAttribute 어노테이션 사용 방법
 
-#### 예제 패키지 :
+#### 예제 클래스 : com.udemy.springmvc.bbs.controller.BbsController
 
 1. @ModelAttribute 어노테이션 사용위치
     - 크게 두 가지로 나뉜다.
@@ -92,7 +90,7 @@
 
 ## Redirect
 
-#### 예제 패키지 :
+#### 예제 클래스 : com.udemy.springmvc.sample.request.controller.RedirectSampleController
 
 1. Web Container는 Redirect 명령 들어오면 웹 브라우저에게 다른 페이지로 이동하라는 명령을 내린다.
 2. 웹 브라우저는 URL을 지시된 주소로 바꾸고 그 주소로 이동한다.
@@ -111,7 +109,7 @@
 
 ## 유효성 검사(Validation)
 
-#### 예제 패키지 :
+#### 예제 패키지 : com.udemy.springmvc.validation
 
 1. Validator
     - org.springframework.validation.Validator 인터페이스
@@ -124,7 +122,7 @@
 
 ## 커맨드 객체에 검증 코드를 추가하는 방법
 
-#### 예제 패키지 :
+#### 예제 패키지 : com.udemy.springmvc.validation
 
 1. @RequestMapping 어노테이션 메소드에서 커맨드 객체 다음 파라미터로 `BindingResult` 타입이나 `Errors` 타입의 파라미터를 추가한다.
 2. @RequestMapping 어노테이션 메소드에서 Validator 객체를 생성한 후 validate() 메소드를 호출한다.
@@ -136,7 +134,7 @@
 
 ## ValidationUtils 클래스
 
-#### 예제 패키지 :
+#### 예제 패키지 : com.udemy.springmvc.validation
 
 1. validate() 메소드를 좀 더 편리하게 사용할 수 있도록 하는 클래스이다.
     - ValidationUtils 클래스 사용 전
@@ -168,7 +166,7 @@
 
 ## @Valid와 @InitBinder 어노테이션 사용
 
-#### 예제 패키지 :
+#### 예제 클래스 : com.udemy.springmvc.validation.member.controller.MemberController#memberRegist()
 
 1. 구현한 Validator의 `validate()` 메소드를 직접 호출하지 않고 스프링 프레임워크에서 호출하는 방법이다.
     - pom.xml에서 의존성 라이브러리를 추가시켜야 한다.
@@ -199,8 +197,6 @@
 
 ## Errors 인터페이스와 BindingResult 인터페이스
 
-#### 예제 패키지 :
-
 1. Errors 인터페이스 : org.springframework.validation.Errors : 유효성 검증 결과를 저장할 때 사용
     - 제공하는 메소드
         1) `void` reject(String errorCode) : 전 객체에 대한 글로벌 에러 코드를 추가한다.
@@ -229,6 +225,8 @@
 
 ## @Component 어노테이션
 
+#### 예제 패키지 : com.udemy.springmvc.sample.abstracts
+
 1. `<context:component-scan base-package=""/>` 태그는 base-package에서 지정한 패키지에서 @Component 어노테이션이 적용된 클래스를 검색해서 @Bean으로 자동
    등록한다.
     - 따라서 XML 설정 파일에서 다양한 Bean 정보를 추가하지 않아도 된다.
@@ -254,6 +252,8 @@
 
 ## @Resource 어노테이션
 
+#### 예제 패키지 : com.udemy.springmvc.sample.abstracts
+
 1. Java 6 및 JEE 5에 추가되었다.
 2. 어플리케이션에서 필요로 하는 자원을 자동으로 연결할 때 사용한다.
     - 이후 배우게 될 `@Autowired` 어노테이션과 동일한 기능을 한다.
@@ -266,6 +266,8 @@
 
 ## @Autowired 어노테이션
 
+#### 예제 패키지 : com.udemy.springmvc.shoes
+
 1. 의존 관계를 설정하는 어노테이션이다.
     - Type 기반
     - 생성자, 필드, 메소드에 적용 가능하다.
@@ -274,6 +276,8 @@
 ---
 
 ## @Qualifier 어노테이션
+
+#### 예제 패키지 : com.udemy.springmvc.shoes
 
 1. 동일한 타입의 Bean이 여러 개 있을 때 그 중 어떤 Bean을 주입할 것인지 설정하는 어노테이션이다.
 
@@ -337,4 +341,165 @@
          <property name="prefix" value="/WEB-INF/views/"/>
          <property name="suffix" value=".jsp"/>
       </bean>
+      ```
+
+---
+
+## Spring Form Tag Library(스프링 커스텀 태그)
+
+#### 예제 패키지 : com.udemy.springmvc.sample.formtag
+
+1. 스프링 프레임워크 2.0부터 JSP와 WEB MVC를 사용하는 경우 `<form/>` 태그 요소를 다룰 수 있도록 데이터 바인딩과 관련된 광범위한 태그 라이브러리를 제공한다.
+    - 폼 태그 라이브러리는 spring-webmvc.jar 안에 있다.
+2. `<form:form>` 태그
+    - 이 태그는 HTML `<form/>` 태그를 생성하고 바인딩을 위해서 내부 태그에 `바인딩 경로(path)`를 지정한다.
+      ```html
+      <form:form>
+        <!-- code ... -->
+      </form:form>
+      ```
+    - 위의 예처럼 `<form/>` 태그에 method, action을 지정하지 않으면 기본적으로 method는 post로 설정되고, action은 현재 요청한 URL로 설정이 된다.
+      ```html
+      <form id="command" method="post" action="url">
+        <!-- code ... -->
+      </form>
+      ```
+    - 커맨드 객체의 이름이 기본 값인 `command`가 아닌 경우 commandName 속성에 커맨드 객체의 이름을 명시해야 한다.
+      ```html
+      <form:form commandName="commandName">
+        <!-- code ... -->
+      </form:form>
+      ```
+3. `<form:form>` 태그 내부에는 `<input>` 태그나 `<select>` 태그와 같이 입력 폼을 출력하는데 필요한 HTML 태그를 입력해서 사용할 수 있다. 이때 입력한 값이 잘못되어 다시 입력해야
+   하는 경우에는 이전에 입력한 값을 출력할 수 있다.
+   ```html
+   <form:form commandName="commandName">
+        <form:input path="id" value="${commentName.id}">
+   </form:form>
+   ```
+
+---
+
+## 스프링 커스텀 태그의 종류
+
+1. \<input\> 태그를 위한 커스텀 태그
+    - \<form:input/\> : text 타입의 \<input\> 태그
+    - \<form:password/\> : password 타입의 \<input\> 태그
+    - \<form:hidden/\> : hidden 타입의 \<input\> 태그
+    - path 속성 : 입력한 값이 바인딩 될 커맨드 객체의 프로퍼티를 지정하는 속성이다.
+   ```html
+   <!-- 스프링 폼 태그 -->
+   <form:input path="userId"/>
+   
+   <!-- HTML 변환 후 -->
+   <input type="text" name="userId" id="userId" value=""/>
+   ```
+2. \<select\> 태그를 위한 커스텀 태그
+    - \<form:select\> : \<select\> 태그를 생성한다.
+    - \<form:options\> : 지정한 콜렉션 객체를 이용해서 \<option\> 태그를 생성한다.
+    - \<form:option\> : 하나의 \<option\> 태그를 생성한다.
+    - 이 태그는 선택 옵션을 제공할 때 주로 사용하는 태그이므로, 여러 개의 선택사항들을 제공한다.
+    - 이러한 선택 정보(옵션)는 Controller에서 생성해서 View로 전달하는 경우가 일반적이다.
+        1) @ModelAttribute 어노테이션을 이용해서 전달한다.
+         ```java
+        // 특정 Controller의 소스 코드
+        // 메소드에서 반환하는 List 콜렉션은 View에서 사용할 수 있다.
+         @ModelAttribute("seasons")
+        protected List<String> referData() throws Exception {
+            List<String> seasons = new ArrayList<String>();
+            seasons.add("봄");
+            seasons.add("여름");
+            seasons.add("가을");
+            seasons.add("겨울");
+        }
+         ```
+      ```html
+      <!-- 스프링 폼 태그 -->
+      <form:select path="seasons" items="${seasons}"/>
+      
+      <!-- HTML 변환 후 -->
+      <select name="seasons" id="seasons">
+        <option value="봄">봄</option>
+        <option value="여름">여름</option>
+        <option value="가을">가을</option>
+        <option value="겨울">겨울</option>
+      </select>
+      
+      <!-- 스프링 폼 태그 또 다른 방법(1) -->
+      <form:select path="seasons">
+        <form:option value="">선택</form:option>
+        <form:options items="${seasons}"/>
+      </form:select>
+
+      <!-- HTML 변환 후 -->
+      <select name="seasons" id="seasons">
+        <option value="">선택</option>
+        <option value="봄">봄</option>
+        <option value="여름">여름</option>
+        <option value="가을">가을</option>
+        <option value="겨울">겨울</option>
+      </select>
+      
+      <!-- 스프링 폼 태그 또 다른 방법(2) -->
+      <form:select path="seasons">
+        <form:option value="따듯한 봄"/>
+        <form:option value="뜨거운 여름">여름</form:option>
+        <form:option value="추운 겨울" label="눈 내리는 겨울"/>
+      </form:select>
+      
+      <!-- HTML 변환 후 -->
+      <select name="seasons" id="seasons">
+        <option value="따뜻한 봄">따뜻한 봄</option>
+        <option value="뜨거운 여름">여름</option>
+        <option value="추운 겨울">눈 내리는 겨울</option>
+      </select>
+      ```
+    - 위의 코드에서 만약, `seasons` 객체의 프로퍼티 값이 "봄"인 경우 해당 \<option\> 태그에 `selected` 속성이 자동으로 추가된다.
+    - 콜렉션에 있는 객체가 String이 아닌 경우
+      ```java
+      public class Code {
+        private String code;
+        private String label;
+      
+        // getter, setter ...
+      }
+      ```
+      ```html
+      <!-- 
+      "jobCode" 라는 콜렉션 객체(List<Code>)를 사용하는 경우 스프링 폼 태그 
+      Code 클래스의 label 프로퍼티를 <form:options/> 태그의 itemLabel 값에 매칭시키고,
+      Code 클래스의 code 프로퍼티를 <form:options/> 태그의 itemValue 값에 매칭시킨다.
+      -->
+      <form:select path="jobCode">
+        <form:option value="">선택</form:option>
+        <form:options items="${jobCode}" itemLabel="label" itemValue="code"/>
+      </form:select>
+      
+      <!-- HTML 변환 후 -->
+      <select name="jobCode" id="jobCode">
+        <option value="">선택</option>
+        <option value="code 프로퍼티 값">label 프로퍼티 값</option>
+        <option value="code 프로퍼티 값">label 프로퍼티 값</option>
+        <option value="code 프로퍼티 값">label 프로퍼티 값</option>
+      </select>
+      ```
+3. checkbox 타입의 \<input\> 태그를 위한 커스텀 태그
+    - \<form:checkboxes\> : 커맨드 객체의 특정 프로퍼티와 관련된 checkbox 타입의 \<input\> 태그 목록을 생성한다.
+    - \<form:checkbox\> : 커맨드 객체의 특정 프로퍼티와 관련된 checkbox 타입의 \<input\> 태그 한 개를 생성한다.
+      ```java
+      // 커맨드 객체(MemberInfo)가 아래와 같을 때
+      public class MemberInfo {
+        private String[] favorites;
+      
+        // getter, setter ...
+      }
+      ```
+      ```html
+      <!-- 스프링 폼 태그, "favor" 이라는 콜렉션 객체를 사용하는 경우 -->
+      <form:label path="favorites">선호하는 것</form:label>
+      <form:checkboxes path="favorites" items="${favor}"/>
+      
+      <!-- HTML 태그 변환 후(예) -->
+      <input type="checkbox" name="favorites" id="favorites0" value="독서"/><label for="favorites0">독서</label>
+      <input type="checkbox" name="favorites" id="favorites1" value="여행"/><label for="favorites1">여행</label>
       ```
