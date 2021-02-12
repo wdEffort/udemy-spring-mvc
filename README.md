@@ -276,3 +276,65 @@
 ## @Qualifier 어노테이션
 
 1. 동일한 타입의 Bean이 여러 개 있을 때 그 중 어떤 Bean을 주입할 것인지 설정하는 어노테이션이다.
+
+---
+
+## ViewResolver 구현 클래스와 다수의 ViewResolver 설정
+
+1. ViewResolver 구현 클래스
+    - InternalResourceViewResolver : View 이름으로 부터 JSP나 Tiles 연동을 위한 View 객체를 반환한다.
+        1) JSP나 HTML 파일과 같이 웹 어플리케이션의 내부 자원을 이용하여 View를 생성하는 `AbstractUrlBaseView` 타입의 View 객체를 반환한다.
+        2) 기본적으로 사용하는 View 클래스이다.
+            - viewClass, prefix, suffix 프로퍼티를 사용한다.
+        3) 설정방법(예)
+           ```xml
+           <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+              <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+              <property name="prefix" value="/WEB-INF/views/"/>
+              <property name="suffix" value=".jsp"/>
+           </bean>
+           ```
+    - VelocityViewResolver : View 이름으로 부터 Velocity 연동을 위한 View 객체를 반환한다.
+    - VelocityLayoutResolver : VelocityViewResolver와 동일한 기능을 제공하며, 추가로 Velocity의 레이아웃 기능을 제공한다.
+    - BeanNameViewResolver : View 이름과 동일한 이름을 갖는 Bean 객체를 View 객체로 사용한다.
+        1) View 이름과 동일한 이름을 갖는 Bean을 View 객체로 사용한다.
+        2) 주로 커스텀 View 클래스를 View로 사용해야 하는 경우에 사용한다.
+        3) 설정방법(예)
+            ```xml
+            <bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+                <!-- 특정 Controller에서 View의 이름을 "download"로 지정했을 경우, "com.spring.download.pdfDown" 클래스가 처리를 한다. -->
+                <bean id="download" class="com.spring.download.pdfDown"/>
+            </bean>
+           ```
+    - ResourceBundleViewResolver : View 이름과 View 객체간의 매핑 정보를 저장하기 위해 자원 파일을 사용한다.
+    - XmlViewReslolver : View 이름과 View 객체간의 매핑 정보를 저장하기 위해 XML 설정 파일을 사용한다.
+        1) View 이름과 동일한 이름을 갖는 Bean을 View 객체로 사용한다.
+        2) 별도의 XML 설정 파일로부터 Bean 객체를 검색한다.
+        3) 설정방법(예)
+         ```xml
+         <bean id="viewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+            <!-- aaa.xml 설정 파일로부터 Bean 객체를 검색하여 View 객체로 사용하게 된다. -->
+            <property name="location" value="/WEB-INF/views/aaa.xml"/>
+         </bean>
+         ```
+2. 다수의 ViewResolver 설정
+    - 하나의 DispatcherServlet은 한 개 이상의 ViewResolver를 설정할 수 있다.
+    - `order` 라는 프로퍼티를 이용해서 View 이름을 검사할 ViewResolver의 순서를 결정한다.
+        1) `order` 프로퍼티 값이 작을수록 우선 순위가 높다.
+        2) 높은 우선 순위의 ViewResolver가 `null`을 반환하는 경우 다음 우선 순위의 ViewResolver에 View를 요청한다.
+        3) `InternalResourceViewResolver`는 마지막 우선 순위를 갖도록 지정한다.
+            - InternalResourceViewResolver는 항상 View 이름에 매핑되는 View 객체를 반환하기 때문에 null을 반환하지 않는다. 따라서 다른 ViewResolver의 우선
+              순위를 이보다 낮게 설정한 경우 다음 순서로 사용되지 못하는 상황이 발생할 수 있다.
+    - 설정방법(예)
+      ```xml
+      <!-- BeanNameViewResolver 설정 -->
+      <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
+      
+      <!-- InternalResourceViewResolver 설정 -->
+      <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+         <!-- order 프로퍼티를 이용해서 다른 ViewResolver보다 낮은 순위를 갖도록 한다. -->
+         <property name="order" value="2"/>
+         <property name="prefix" value="/WEB-INF/views/"/>
+         <property name="suffix" value=".jsp"/>
+      </bean>
+      ```
