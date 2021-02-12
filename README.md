@@ -503,3 +503,75 @@
       <input type="checkbox" name="favorites" id="favorites0" value="독서"/><label for="favorites0">독서</label>
       <input type="checkbox" name="favorites" id="favorites1" value="여행"/><label for="favorites1">여행</label>
       ```
+    - 스프링에서 제공하는 '_'를 이용하여 커맨드 객체의 특정 프로퍼티에 값을 바인딩 할 수도 있다.
+       ```java
+      public class MemberInfo {
+        private boolean contractAgreement;
+      
+        public boolean isContractAgreement() {
+            return this.contractAgreement;
+        }
+      
+        public void setContractAgreement(boolean contractAgreement) {
+            this.contractAgreement = contractAgreement;
+        }
+      }
+       ```
+      ```html
+      <!-- 스프링 폼 태그 -->
+      <form:checkbox path="contractAgreement" label="위의 약관에 동의합니다."/>
+      
+      <!-- HTML 태그 변환 후 -->
+      <!-- checkbox가 checked 되지 않았더라도 기본 값을 전달하고 싶은 경우 아래처럼 input[type="hidden"] 태그를 사용한다. -->
+      <input type="hidden" name="_contractAgreement" value="on"/>
+      <input type="checkbox" name="contractAgreement" id="contractAgreement1" value="true"/>
+      <label for="contractAgreement1">위의 약관에 동의합니다.</label>
+      ```
+4. radio 타입의 \<input\> 태그를 위한 커스텀 태그
+    - \<form:radiobuttons\> : 커맨드 객체의 특정 프로퍼티와 관련된 radio 타입의 \<input\> 태그 목록을 생성한다. `items` 속성을 이용하여 값으로 사용할 콜렉션 객체를
+      전달받는다. 또한 `path` 속성을 이용하여 값을 바인딩할 커맨드 객체의 프로퍼티를 지정한다.
+    - \<form:radiobutton\> : 커맨드 객체의 특정 프로퍼티와 관련된 radio 타입의 \<input\> 태그 한 개를 생성한다.
+      ```html
+      <!-- 스프링 폼 태그 -->
+      <form:label for="program">
+        <form:radiobuttons path="program" items="${programs}"/>
+      </form:label>
+      
+      <!-- HTML 변환 후 -->
+      <input type="radio" name="program" id="program1" value="c"/>
+      <label for="program1">C 언어</label>
+      <input type="radio" name="program" id="program2" value="java"/>
+      <label for="program2">Java 언어</label>
+      ```
+5. \<textarea\> 태그를 위한 커스텀 태그
+    - \<form:textarea\> : 여러 줄을 입력받아야 하는 경우
+       ```html
+      <!-- 스프링 폼 태그 -->
+      <form:label path="memo">메모</form:label>
+      <form:textarea path="memo" cols="50" rows="5"/>
+      
+      <!-- HTML 변환 후 -->
+      <label for="memo">메모</label>
+      <textarea name="memo" id="memo" cols="50" rows="5"></textarea>
+       ```
+6. 에러 관련 커스텀 태그
+    - Errors 객체 또는 BindingResult 객체를 이용해서 에러 정보를 추가한 경우 사용할 수 있다.
+    - \<form:errors\> : `path` 속성을 이용해서 커맨드 객체의 특정 프로퍼티와 관련된 `한 개 이상`의 에러 메시지를 출력할 수 있다.
+      ```java
+      public class MemberValidator implements Validator {
+        @Override
+        public void validate(Object target, Errors errors) {
+            ValidationUtils.rejectIfEmpty(errors, "userId", "아이디를 입력해 주세요.");
+        } 
+      }
+      ```
+       ```html
+      <form:form commandName="memberValidator">
+        <form:label path="userId">아이디</form:label>
+        <form:input path="userId"/>
+        <form:errors path="userId"/>
+      </form:form> 
+       ```
+    - \<form:errors\> 태그의 element, delimiter 속성
+        1) element : 각 에러 메시지를 출력할 때 사용할 HTML 태그를 지정한다. 기본 값은 `<span>`이다.
+        2) delimiter : 각 에러 메시지를 구분할 때 사용할 HTML 태그를 지정한다. 기본 값은 `<br/>`이다.
