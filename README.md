@@ -382,6 +382,8 @@
 
 ## 스프링 커스텀 태그의 종류
 
+#### 예제 패키지 : com.udemy.springmvc.sample.customtag
+
 1. \<input\> 태그를 위한 커스텀 태그
     - \<form:input/\> : text 타입의 \<input\> 태그
     - \<form:password/\> : password 타입의 \<input\> 태그

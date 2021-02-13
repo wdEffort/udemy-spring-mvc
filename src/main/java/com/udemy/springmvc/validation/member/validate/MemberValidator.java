@@ -18,6 +18,12 @@ public class MemberValidator implements Validator {
         return Member.class.isAssignableFrom(clazz);
     }
 
+    /**
+     * 커맨드 객체에 대한 유효성 검증을 진행하는 메소드
+     *
+     * @param target 커맨드 객체
+     * @param errors 에러 정보를 저장하는 객체
+     */
     @Override
     public void validate(Object target, Errors errors) {
         System.out.println("===== validate() start =====");
