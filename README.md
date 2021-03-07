@@ -168,7 +168,7 @@
 
 #### 예제 클래스 : com.udemy.springmvc.validation.member.controller.MemberController#memberRegist()
 
-1. 구현한 Validator의 `validate()` 메소드를 직접 호출하지 않고 스프링 프레임워크에서 호출하는 방법이다.
+1. 이전에 구현한 Validator 클래스의 `validate()` 메소드를 직접 호출하지 않고 스프링 프레임워크에서 호출하는 방법이다.
     - pom.xml에서 의존성 라이브러리를 추가시켜야 한다.
        ```xml
         <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
@@ -178,20 +178,22 @@
             <version>6.1.5.Final</version>
         </dependency>
        ```
-2. @RequestMapping 어노테이션 메소드에서 커맨드 객체에 @Valid 어노테이션을 지정한다.
+2. @RequestMapping 어노테이션 메소드에서 커맨드 객체 파라미터 앞에 `@Valid(javax.validation.Valid)` 어노테이션을 지정한다.
    ```java
     @RequestMapping(value = "/members", method = RequestMethod.POST)
     public String memberRegist(@Valid @ModelAttribute("Member") Member member, BindingResult bindingResult) {
         // code ...
     }
    ```
-3. 컨트롤러에서 @InitBinder 어노테이션이 붙은 메소드를 추가한다.
-   ```java
-    @InitBinder
-    protected void initBinder(WebDataBinder webDataBinder) {
-        webDataBinder.setValidator(new MemberValidator());
-    }
-   ```
+3. 컨트롤러에서 `@InitBinder(org.springframework.web.bind.annotation.InitBinder)` 어노테이션이 붙은 메소드를 추가한다.
+    - @InitBinder 어노테이션은 해당 컨트롤러로 들어오는 요청에 대해 추가적인 설정을 하고 싶을 때 사용할 수 있다.
+    - @InitBinder가 설정된 메소드는 컨트롤러(정확히 핸들러 메소드)가 `요청을 처리하기 전`에 실행된다.
+         ```java
+          @InitBinder
+          protected void initBinder(WebDataBinder webDataBinder) {
+              webDataBinder.setValidator(new MemberValidator());
+          }
+         ```
 
 ---
 
